@@ -9,7 +9,7 @@ pipeline {
                 git url: 'https://github.com/babatunde209111/course-jenkins-project', branch: 'main'
                 sh "ls -ltr"
 
-                // // withCredentials([usernamePassword(credentialsId: 'server-creds', usernameVariable: "myuser", passwordVariable: "mypassword")]) {
+                withCredentials([usernamePassword(credentialsId: 'server-creds', usernameVariable: "myuser", passwordVariable: "mypassword")]) {
 
                 //     sh '''
                 //     echo ${myuser}
