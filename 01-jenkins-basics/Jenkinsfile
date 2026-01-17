@@ -1,44 +1,79 @@
+// // pipeline {
+// //     agent any
+
+// //     stages {
+
+
+// //         stage('checkout') {
+// //             steps {
+// //                
+//    withCredentials([usernamePassword(credentialsId: 'server-creds', usernameVariable: "myuser", passwordVariable: "mypassword")]) {
+
+//                     sh '''
+//                     echo ${myuser}
+//                     echo ${mypassword}
+//                     '''
+// //                 }
+// //         }
+
+// //                 sh "pip install -r requirements.txt"
+            
+// //             }
+// //         }
+// //         stage('Test') {
+// //             steps {
+// //                 sh "pytest"
+                
+// //             }
+// //         }    
+// //         stage('Deployment') {
+// //             input {
+// //                 message "Do you want to proceed further?"
+// //                 ok "Yes"
+// //             }
+// //             steps {
+// //                 echo "Running Deployment"
+                
+// //             }
+// //         } 
+        
+            
+// //     }
+// // }
+
 pipeline {
     agent any
 
     stages {
 
-
-        stage('checkout') {
+        stage('Checkout') {
             steps {
-                git url: 'https://github.com/babatunde209111/course-jenkins-project', branch: 'main'
-                sh "ls -ltr"
-
-                withCredentials([usernamePassword(credentialsId: 'server-creds', usernameVariable: "myuser", passwordVariable: "mypassword")]) {
-
-                //     sh '''
-                //     echo ${myuser}
-                //     echo ${mypassword}
-                //     '''
-                }
-        
-
-                sh "pip install -r requirements.txt"
-            
+                git branch: 'main',
+                    url: 'https://github.com/babatunde209111/course-jenkins-project'
+                sh 'ls -ltr'
             }
         }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
         stage('Test') {
             steps {
-                sh "pytest"
-                
+                sh 'pytest'
             }
-        }    
+        }
+
         stage('Deployment') {
             input {
-                message "Do you want to proceed further?"
-                ok "Yes"
+                message 'Do you want to proceed further?'
+                ok 'Yes'
             }
             steps {
-                echo "Running Deployment"
-                
+                echo 'Running Deployment'
             }
-        } 
-        
-            
+        }
     }
 }
